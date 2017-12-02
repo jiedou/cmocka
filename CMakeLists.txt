@@ -1,4 +1,4 @@
-project(cmocka C)
+project(cmocka CXX)
 
 # Required cmake version
 cmake_minimum_required(VERSION 2.6.0)
