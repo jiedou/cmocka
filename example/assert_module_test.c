@@ -17,7 +17,7 @@
 #include <stddef.h>
 #include <setjmp.h>
 #include <cmocka.h>
-
+/* 已经包了头文件  下面的extern可以删掉了吧 */
 #include "assert_module.h"
 
 extern void increment_value(int * const value);

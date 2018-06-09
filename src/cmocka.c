@@ -2456,20 +2456,23 @@ static int cmocka_run_one_tests(struct CMUnitTestState *test_state)
 }
 
 int _cmocka_run_group_tests(const char *group_name,
-                            const struct CMUnitTest * const tests,
-                            const size_t num_tests,
-                            CMFixtureFunction group_setup,
-                            CMFixtureFunction group_teardown)
+                            const struct CMUnitTest * const tests,/* 测试用例 */
+                            const size_t num_tests,               /* 测试用例个数 */
+                            CMFixtureFunction group_setup,        /* 一组用例的之前执行的setup函数 */
+                            CMFixtureFunction group_teardown)     /* 一组用例的之后执行的teardown函数 */
 {
+    /*  记录每个用例的相关状态信息*/
     struct CMUnitTestState *cm_tests;
+    /* group_check_point 检查是否有内存泄露 */
     const ListNode *group_check_point = check_point_allocated_blocks();
+    /* 总状态 */
     void *group_state = NULL;
-    size_t total_failed = 0;
-    size_t total_passed = 0;
-    size_t total_executed = 0;
-    size_t total_errors = 0;
-    size_t total_skipped = 0;
-    double total_runtime = 0;
+    size_t total_failed = 0;/* 失败用例个数 */
+    size_t total_passed = 0;/* 成功用例个数 */
+    size_t total_executed = 0;/* 执行用例个数 */
+    size_t total_errors = 0;/* 错误数 */
+    size_t total_skipped = 0;/* 跳过用例的个数 */
+    double total_runtime = 0;/* 用例总的执行时间 */
     size_t i;
     int rc;
 
