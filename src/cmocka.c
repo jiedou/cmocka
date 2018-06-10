@@ -2274,6 +2274,11 @@ static int cmocka_run_one_test_or_fixture(const char *function_name,
 
     /* Detect if we should handle exceptions */
 #ifdef _WIN32
+    /*
+    IsDebuggerPresent是确定调用进程是否由用户模式的调试器调试。
+    如果当前进程运行在调试器的上下文，返回值为非零值。
+    如果当前进程没有运行在调试器的上下文，返回值是零。
+    */
     handle_exceptions = !IsDebuggerPresent();
 #endif /* _WIN32 */
 #ifdef UNIT_TESTING_DEBUG
@@ -2321,7 +2326,7 @@ static int cmocka_run_one_test_or_fixture(const char *function_name,
         }
         fail_if_leftover_values(function_name);
         global_running_test = 0;
-    } else {
+    } else {/* 用例执行失败都会跳转到这里统一处理 */
         /* TEST FAILED */
         global_running_test = 0;
         rc = -1;
@@ -2565,7 +2570,7 @@ int _cmocka_run_group_tests(const char *group_name,
         total_errors++;
     }
 
-    /* Run group teardown */
+    /* Run group teardown group setup执行失败后 group teardown仍然后执行*/
     if (group_teardown != NULL) {
         rc = cmocka_run_group_fixture("cmocka_group_teardown",
                                       NULL,
